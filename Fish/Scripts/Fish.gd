@@ -11,7 +11,7 @@ func _input(event):
 		var scaled = unscaled.normalized()
 		apply_force_direction(self, scaled, 10.0) # Adjust strength as needed
 
-func _process(delta) -> void:
+func _process() -> void:
 	camera.transform.origin.x = self.transform.origin.x
 	camera.transform.origin.y = self.transform.origin.y
 
