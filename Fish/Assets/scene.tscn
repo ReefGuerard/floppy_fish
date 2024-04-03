@@ -1,10 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://b5trd37lpr1fb"]
+[gd_scene load_steps=8 format=3 uid="uid://b5trd37lpr1fb"]
 
 [ext_resource type="Script" path="res://Scripts/Fish.gd" id="1_7w3xm"]
 
-[sub_resource type="SphereMesh" id="SphereMesh_qfo18"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_03103"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_w08lv"]
+[sub_resource type="SphereMesh" id="SphereMesh_cincj"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_v4wvx"]
 size = Vector3(50, 0.1, 1)
@@ -12,37 +12,61 @@ size = Vector3(50, 0.1, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_q7fih"]
 size = Vector3(50, 0.1, 1)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_8lvut"]
+size = Vector3(1, 5, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mlydc"]
+size = Vector3(1, 5, 1)
+
 [node name="scene" type="Node3D"]
 
 [node name="Fish" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 script = ExtResource("1_7w3xm")
 
-[node name="Node3D" type="Node3D" parent="Fish"]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Fish/Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-mesh = SubResource("SphereMesh_qfo18")
-
 [node name="CollisionShape" type="CollisionShape3D" parent="Fish"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-shape = SubResource("SphereShape3D_w08lv")
+shape = SubResource("SphereShape3D_03103")
 
-[node name="CameraRig" type="Marker3D" parent="Fish"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Fish"]
+mesh = SubResource("SphereMesh_cincj")
+skeleton = NodePath("")
 
-[node name="Camera" type="Camera3D" parent="Fish/CameraRig"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.69118, 5)
+[node name="CameraRig" type="Marker3D" parent="."]
+
+[node name="Camera" type="Camera3D" parent="CameraRig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.6, 5)
 projection = 1
 current = true
 size = 15.0
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-shape = SubResource("BoxShape3D_v4wvx")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
-mesh = SubResource("BoxMesh_q7fih")
-
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.59602, 0)
 shadow_enabled = true
+
+[node name="Terrain" type="Node" parent="."]
+
+[node name="Floor" type="StaticBody3D" parent="Terrain"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/Floor"]
+shape = SubResource("BoxShape3D_v4wvx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Terrain/Floor"]
+mesh = SubResource("BoxMesh_q7fih")
+
+[node name="LeftWall" type="StaticBody3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 2.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/LeftWall"]
+shape = SubResource("BoxShape3D_8lvut")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Terrain/LeftWall"]
+mesh = SubResource("BoxMesh_mlydc")
+
+[node name="RightWall" type="StaticBody3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 2.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/RightWall"]
+shape = SubResource("BoxShape3D_8lvut")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Terrain/RightWall"]
+mesh = SubResource("BoxMesh_mlydc")
