@@ -1,10 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://b5trd37lpr1fb"]
+[gd_scene load_steps=7 format=3 uid="uid://b5trd37lpr1fb"]
 
-[ext_resource type="Script" path="res://Scripts/Fish.gd" id="1_7w3xm"]
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_03103"]
-
-[sub_resource type="SphereMesh" id="SphereMesh_cincj"]
+[ext_resource type="Script" path="res://Assets/scene.gd" id="1_0u251"]
+[ext_resource type="PackedScene" uid="uid://bfdv87meixoom" path="res://Assets/fish/floppy.tscn" id="2_qbpkj"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_v4wvx"]
 size = Vector3(50, 0.1, 1)
@@ -18,18 +15,8 @@ size = Vector3(1, 5, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_mlydc"]
 size = Vector3(1, 5, 1)
 
-[node name="scene" type="Node3D"]
-
-[node name="Fish" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-script = ExtResource("1_7w3xm")
-
-[node name="CollisionShape" type="CollisionShape3D" parent="Fish"]
-shape = SubResource("SphereShape3D_03103")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Fish"]
-mesh = SubResource("SphereMesh_cincj")
-skeleton = NodePath("")
+[node name="Scene" type="Node3D"]
+script = ExtResource("1_0u251")
 
 [node name="CameraRig" type="Marker3D" parent="."]
 
@@ -70,3 +57,7 @@ shape = SubResource("BoxShape3D_8lvut")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Terrain/RightWall"]
 mesh = SubResource("BoxMesh_mlydc")
+
+[node name="Floppy2" parent="." instance=ExtResource("2_qbpkj")]
+
+[connection signal="camera_ready" from="." to="Floppy2" method="_on_scene_camera_ready"]
